@@ -40,9 +40,22 @@ for row in dlist:
     db.execute_query(con,query)    
     con.commit() 
     result = con.cursor().execute("SELECT * FROM student1;") 
-print result.fetchall() 
+#print result.fetchall() 
     
-res1= con.cursor().execute("SELECT course_id from course WHERE state is 'active';").fetchall()    
+for row in two_list:
+    keys = row.keys()
+    values = row.values()
+    #print values
+    columns = ', '.join(keys)
+    placeholder = "'{0}','{1}','{2}'".format(values[0],values[1],values[2])
+    #TODO batch process the query result
+    query = "INSERT INTO course ('course_id','state','course_name') VALUES (%s);" % (placeholder)
+    con.cursor().execute(query)    
+    con.commit() 
+    result1 = con.cursor().execute("SELECT * FROM course;") 
+#print result1.fetchall()     
+    
+res1 = con.cursor().execute("SELECT course_id from course WHERE state is 'active';").fetchall()    
 print res1
 
 result_list = []

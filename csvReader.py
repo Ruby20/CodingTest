@@ -19,7 +19,7 @@ def csv_reader(filename):
 
 #def sanitize(alist):     
 
-def csvs(filename)
+def csvs(filename):
     mycsv = open(filename, 'rb')
     try:
        input_file = csv.DictReader(open(filename),dialect='excel' )
