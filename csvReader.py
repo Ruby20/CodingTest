@@ -6,11 +6,13 @@ def csv_reader(filename):
     mycsv = open(filename, 'rb')
     with open(filename, 'rb') as f:
         #To get rid of the null value error in csv file utf-16
-        reader = csv.reader(f.replace('\0','')for f in mycsv )
+        try:
+           reader = csv.reader(f.replace('\0','')for f in mycsv )
+        except csv.Error,e:
+           sys.exit('file %s, line %d: %s' % (filename, reader.line_num, e)) 
         a_list = list(reader)
         
     for item in your_list:
-        
         #print item
         str1 = " ".join(item)
         str2 = str1.split(",")

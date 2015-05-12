@@ -1,48 +1,37 @@
 import dbConnection as db 
-from csvReader import csv_reader
-from csvReader import csvs
+from csvReader import csvs 
 
 #Read csv and an initial working code
 
-filename = 'student.csv'
-fi = 'course.csv'
+student_file = 'student.csv'
+course_file = 'course.csv'
 #alist =  csv_reader(filename)
-dlist = csvs(filename)
-two_list = csvs(fi)
+student_list = csvs(student_file)
+course_list = csvs(course_file)
 
-#print dlist
 #get the db connection handler
-conn = sqlite3.connect(':memory:', isolation_level=None)
-cur = conn.cursor()
 con = db.db_connect()
-#query1 = 'INSERT INTO student1 (Course_id,user_name,state,user_id)  VALUES ("C628944","Noah Thomas","active","U531649")'
-#print query1
-#con.cursor().execute(query1)
 
-for row in dlist:
+#inserting the student data to the db
+for row in student_list:
     #print row["user_id"]
     keys = row.keys()
     values = row.values()
     #print values
-    columns = ', '.join(keys)                  # TODO Check the order
+    
+    columns = ', '.join(keys) 
+    # TODO Check the order                 
     placeholder = "'{0}','{1}','{2}','{3}'".format(row[keys[0]],values[1],values[2],values[3])
 
- 
-#TODO batch process the query result
+    #TODO batch process the query result
     query = "INSERT INTO student1 ('course_id','user_name','state','user_id') VALUES (%s);" % (placeholder)
     #print query
-#==============================================================================
-#     try:
-#        con.cursor().executemany(query, values) 
-#        con.commit()
-#     except:
-#==============================================================================
     db.execute_query(con,query)    
-    con.commit() 
-    result = con.cursor().execute("SELECT * FROM student1;") 
+#result = con.cursor().execute("SELECT * FROM student1;") 
 #print result.fetchall() 
-    
-for row in two_list:
+
+#inserting the course data to the db    
+for row in course_list:
     keys = row.keys()
     values = row.values()
     #print values
@@ -50,27 +39,29 @@ for row in two_list:
     placeholder = "'{0}','{1}','{2}'".format(values[0],values[1],values[2])
     #TODO batch process the query result
     query = "INSERT INTO course ('course_id','state','course_name') VALUES (%s);" % (placeholder)
-    con.cursor().execute(query)    
-    con.commit() 
-    result1 = con.cursor().execute("SELECT * FROM course;") 
+    db.execute_query(con,query)    
+#result1 = con.cursor().execute("SELECT * FROM course;") 
 #print result1.fetchall()     
-    
-res1 = con.cursor().execute("SELECT course_id from course WHERE state is 'active';").fetchall()    
-print res1
 
+#get the list of active courses  
+query_course = "SELECT course_id from course WHERE state is 'active';"  
+active_courses = db.execute_query(con,query_course)    
+print active_courses
+
+#create a list to store results 
 result_list = []
 
 #Then need to filter the list of active courses with active students 
-for c_id in res1:
+for c_id in active_courses:
   #Course = str(c_id[0])
-  Course =  c_id[0]
-  
-  query = "SELECT user_name,course_id from student1 WHERE state = 'active' AND course_id='{0}';".format(Course)
+  course_id =  c_id[0]
+  query_student = "SELECT user_name,course_id from student1 WHERE state = 'active' AND course_id='{0}';".format(course_id)
   #print query  
-  res2= con.cursor().execute(query).fetchall()    
-  result_list.append(res2) 
-
+  active_students= db.execute_query(con,query_student)   
+  result_list.append(active_students) 
 print result_list 
+
+#TODO format the output
 with open('test.txt', 'w') as f:
     for row in result_list:
         #print row
