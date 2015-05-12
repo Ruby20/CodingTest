@@ -1,3 +1,4 @@
+'userName'   'courseID'
 [(u'Noah Thomas', 1), (u'Chloe Wood', 1), (u'Daniel Bennett', 1), (u'Alexander Reed', 1)]
 [(u'Alexander Stewart', 2), (u'Sophia Williams', 2), (u'Ava Watson', 2)]
 [(u'Alexander Cruz', 3), (u'William Roberts', 3), (u'Olivia Price', 3), (u'Abigail Hughes', 3), (u'William Gray', 3)]

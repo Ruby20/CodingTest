@@ -1,5 +1,5 @@
-user_id,user_name,Course_id,state
-U531649,Noah Thomas,1,active
+user_id(text),user_name(text),Course_id(int),state(text)
+,Noah Thomas,1,active
 U346561,Chloe Wood,1,active
 U917218,Alexander Cruz,3,active
 U192467,Alexander Stewart,2,active

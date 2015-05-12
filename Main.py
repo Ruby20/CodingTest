@@ -10,7 +10,7 @@ course_file = 'course.csv'
 student_list = csvs(student_file)
 course_list = csvs(course_file)
 
-print student_list.fieldnames
+#print student_list.fieldnames
 
 
 #get the db connection handler
@@ -21,19 +21,23 @@ con = db.db_connect()
 for row in student_list:
     #print row["user_id"]
     keys = row.keys()
+    #To get the datatype of the field
+    Dtype =get_datatype(keys[0])
     values = row.values()
     #print values
     
-    columns = ', '.join(keys) 
+    columns = ', '.join(keys)
+    print columns
     # TODO Check the order                 
     placeholder = "'{0}','{1}','{2}','{3}'".format(row[keys[0]],row[keys[1]],row[keys[2]],row[keys[3]])
-
+    
     #TODO batch process the query result
-    query = "INSERT INTO student1 ('course_id','user_name','state','user_id') VALUES (%s);" % (placeholder)
-    #print query
+    query = "INSERT INTO student1 ('user_id','user_name','state','course_id') VALUES (%s);" % (placeholder)
+    print query
     db.execute_query(con,query)    
-#result = con.cursor().execute("SELECT * FROM student1;") 
-#print result.fetchall() 
+    
+    result = con.cursor().execute("SELECT * FROM student1;") 
+print result.fetchall() 
 #==========================================================================================
 
 #=======================================================================================
@@ -71,6 +75,7 @@ print result_list
 
 #TODO format the output
 with open('test.txt', 'w') as f:
+    f.write("'userName'   'courseID'\n")
     for row in result_list:
         #print row
         f.write("%s\n" % str(row))

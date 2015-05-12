@@ -1,6 +1,7 @@
 '''Code to read the csv files using dict reader csv module
 '''
 import csv
+import re
 
 def csv_reader(filename):
     mycsv = open(filename, 'rb')
@@ -19,8 +20,8 @@ def csv_reader(filename):
         #TODO Check order and course_id
     return str2
 
-#def sanitize(alist):     
 
+#def sanitize(alist):     
 def csvs(filename):
     mycsv = open(filename, 'rb')
     try:
@@ -34,9 +35,10 @@ def csvs(filename):
     return input_file
 
 #TODO read the column type  
-#def get_datatype(filename):
-        
-    
-    
+def get_datatype(key):
+    start = '('
+    end = ')'
+    data_type = key[key.find(start)+1: key.find(end)]    
+    return  data_type
     
     
