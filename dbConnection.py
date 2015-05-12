@@ -2,11 +2,13 @@ import sqlite3
 
 
 def db_connect():
-#conn = sqlite3.connect('school.db')
+#conn = sqlite3.connect('course.db')
+    #store the sqlite db in memory RAM
     conn = sqlite3.connect(':memory:', isolation_level=None)
     cur = conn.cursor()
-    # create table "student" and "course". The relation is "Many-to-One"
-    # The order of csv files do matter since we have the foreign key constrain on course_id
+    # create table "student" and "course",relation is "Many-to-One"
+    
+        
     cur.execute('''CREATE TABLE IF NOT EXISTS course
                     (course_id INTEGER PRIMARY KEY NOT NULL,
                      course_name TEXT, 
@@ -20,3 +22,10 @@ def db_connect():
      
     return conn
 
+
+def execute_query(conn,query):
+    cur = conn.cursor()
+    res = cur.execute(query).fetchall()
+    conn.commit()
+    return res
+          
