@@ -13,7 +13,7 @@ def db_connect():
                     (course_id INTEGER PRIMARY KEY NOT NULL,
                      course_name TEXT, 
                      state TEXT)''')
-    cur.execute('''CREATE TABLE student1
+    cur.execute('''CREATE TABLE IF NOT EXISTS student1
                     (course_id INTEGER,
                      user_name TEXT,
                      state TEXT, 

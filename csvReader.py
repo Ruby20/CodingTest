@@ -32,4 +32,11 @@ def csvs(filename):
     #Database columns missing
         
     return input_file
-  
+
+#TODO read the column type  
+#def get_datatype(filename):
+        
+    
+    
+    
+    
